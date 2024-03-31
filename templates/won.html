@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Captured!
+{% endblock %}
+
+{% block main %}
+    <h1>You captured {{ pokemon_name.title() }}!</h1>
+    <h2><img src="static/pokeball_close.ico" width="80px" height="80px" style="image-rendering: pixelated;"></h2>
+    <h2><img src="{{ pokemon_img }}" width="300px" style="image-rendering: pixelated;"></h2>
+    {% if session["user_id"] %}
+        <a href="/profile">
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Pokédex</button>
+        </a>
+        <a href="/game">
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Play again!</button>
+        </a>
+    {% else %}
+        <a href="/game">
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Play again!</button>
+        </a>
+        <p>NOTE: You need to <a href="/register">register</a> to save your progress!</p>
+    {% endif %}
+{% endblock %}
