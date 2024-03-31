@@ -1,6 +1,7 @@
 # pokemon_hangman
 
 ## TODO
+- Organize static/
 - Create pokedex page
     - Request all pokemon of user
     - show name, type and sprite
