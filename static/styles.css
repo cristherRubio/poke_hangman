@@ -14,11 +14,36 @@ body {
 .btn-primary{
     background-color: #3466af !important; /* Change the hover color if desired */
     color: white !important;
+    margin: 10px;
 }
 
-.letter-button {
+.letter-button:not([disabled]):hover {
+    background-color: #ffcb05 !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+.letter-button[disabled] { /* ChatGPT */
+    background-color: #474747 !important;
+    color: rgb(255, 254, 254) !important;
+    width: 40px !important;
     margin: 5px;
-    padding: 10px 15px;
-    font-size: 16px;
+    padding: 10px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+}
+
+.letter-button:not([disabled]){
+    background-color: #3466af !important; 
+    color: white !important;
+    width: 40px !important;
+    margin: 5px;
+    padding: 10px 10px;
+    border-radius: 6px;
+    font-size: 20px;
     cursor: pointer;
+}
+
+#pokemon-name{
+    font-size: 40px;
 }

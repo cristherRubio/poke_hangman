@@ -33,7 +33,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
 
-        # Password validation
+        # Password validation REGEX provided by ChatGPT
         if not re.match(r'^(?=.*[A-Za-z]{4})(?=.*\d)[A-Za-z\d]{5,}$', password):
             flash('Password must contain at least 4 letters and 1 number.', 'danger')
             return redirect(url_for('register'))
@@ -90,66 +90,81 @@ def profile():
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
-
-    if 'rndm_pokemon_id' not in session or request.method == 'GET':
-        reset_game()
-        all_pokemon = Pokemon.query.all()
-        rndm_pokemon = random.choice(all_pokemon)
-        session['rndm_pokemon_id'] = rndm_pokemon.id
-        session['letters'] = list(string.ascii_uppercase)
-        session['guessed_chars'] = []
-        session['attempts'] = (len(rndm_pokemon.name.upper()) // 2) - 1
+    if request.method == 'GET':
+        pokemon_id, pokemon, pokemon_url, attempts, guessed_chars = initialize_game()
+        session['pokemon_id'] = pokemon_id
+        session['pokemon'] = pokemon
+        session['pokemon_url'] = pokemon_url
+        session['attempts'] = attempts
+        session['guessed_chars'] = guessed_chars
+        session['used_letters'] = []
+        used_letters = []
     else:
-        rndm_pokemon_id = session['rndm_pokemon_id']
-        rndm_pokemon = Pokemon.query.get(rndm_pokemon_id)
+        pokemon_id = session['pokemon_id']
+        pokemon = session['pokemon']
+        print(pokemon)
+        pokemon_url = session['pokemon_url']
+        attempts = session['attempts']
+        guessed_chars = session['guessed_chars']
+        used_letters = session['used_letters']
 
-    """ all_pokemon = Pokemon.query.all()
-    rndm_pokemon = random.choice(all_pokemon) """
+        if attempts <= 1:
+            return redirect(url_for('lose'))
 
-    # Hangman mechanic
-    pokemon_name = rndm_pokemon.name.upper()
-    guessed_chars = session.get('guessed_chars', [])
-    letters = session.get('letters', list(string.ascii_uppercase))
-    attempts = (len(pokemon_name) // 2) - 1
-    if attempts < 1:
-        attempts = 2
+        letter_guess = request.form['letter'].upper()
 
-    regex_sub = '_' * len(pokemon_name)  # Default value for regex_sub (ChatGPT)
-
-    if request.method == 'POST':
-        if attempts < 0:
-            reset_game()
+        if letter_guess in used_letters:
             return redirect(url_for('game'))
-            # Render template or pop up to play again
+        
+        used_letters.append(letter_guess)
 
-        regex = r'[^ '+ "".join(guessed_chars) + r']'  # Dynamic regex list (ChatGPT)
-        regex_sub = re.sub(regex, '_', pokemon_name)
-        if regex_sub == pokemon_name:
-            # If user add to collection PokemonMaster
-            # Render template or pop up to play again
-            ...
-
-        letter = request.form.get('guess').upper()
-        if letter in pokemon_name:
-            guessed_chars.append(letter) 
+        if letter_guess in pokemon:
+            guessed_chars.append(letter_guess)
         else:
             attempts -= 1
 
-        if letter in letters:
-            letters.remove(letter)
+        session['attempts'] = attempts
+        session['guessed_chars'] = guessed_chars
+        session['used_letters'] = used_letters
 
-    session['letters'] = letters
-    session['guessed_chars'] = guessed_chars
+    regex = r'[^ ' + "".join(guessed_chars) + r']'
+    regex_sub = re.sub(regex, '_', pokemon)
 
-    return render_template(
-        'game.html', 
-        rndm_pokemon=rndm_pokemon, 
-        masked_word=regex_sub, 
-        letters=letters,
-        attempts=attempts
-    )
+    if pokemon == regex_sub:
+        return redirect(url_for('win', captured_pokemon=pokemon_id))
+
+    return render_template('game.html', regex_sub=regex_sub, used_letters=used_letters, attempts=attempts, pokemon_url=pokemon_url)
+
+@app.route('/lose')
+def lose():
+    return render_template('lost.html')
+
+@app.route('/win')
+def win():
+    pokemon_id = request.args.get('captured_pokemon')  #ChatGPT
+    pokemon = Pokemon.query.filter(Pokemon.id == pokemon_id).first()
+    pokemon_name = pokemon.name
+    pokemon_img = pokemon.sprite_url
+    # If log in, add pokemon to user
+    if 'user_id' in session:
+        user = User.query.filter_by(id=session['user_id']).first()
+        pokemon_capture = UserPokemon(user_id=user.id, pokemon_id=pokemon_id)
+        db.session.add(pokemon_capture)
+        db.session.commit()
+    return render_template('won.html', pokemon_name=pokemon_name, pokemon_img=pokemon_img)
+
+def initialize_game():
+    #ChatGPT
+    all_pokemon = Pokemon.query.all()
+    pokemon = random.choice(all_pokemon)
+    pokemon_id = pokemon.id
+    pokemon_name = pokemon.name.upper()
+    pokemon_url = pokemon.sprite_url
+    attempts = (len(pokemon_name) // 2)
+    return pokemon_id, pokemon_name, pokemon_url, attempts, []
 
 def reset_game():
+    #ChatGPT
     session.pop('rndm_pokemon_id', None)
     session.pop('letters', None)
     session.pop('guessed_chars', None)
