@@ -83,7 +83,12 @@ def logout():
 def profile():
     if 'user_id' in session:
         user = User.query.filter_by(id=session['user_id']).first()
-        return render_template('profile.html', user=user)
+        pokedex_q = UserPokemon.query.filter_by(user_id=session['user_id']).all()
+        pokedex_ids = [user_pokemon.pokemon_id for user_pokemon in pokedex_q]
+        pokedex = Pokemon.query.filter(Pokemon.id.in_(pokedex_ids)).all()  #ChatGPT
+        poke_count = len(pokedex)
+        poke_types = set(sorted([pokemon.type for pokemon in pokedex]))
+        return render_template('profile.html', pokedex=pokedex, poke_count=poke_count, poke_types=poke_types)
     else:
         flash('You need to log in first.', 'error')
         return redirect(url_for('login'))

@@ -1,9 +1,27 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Profile
+    Pokédex
 {% endblock %}
 
 {% block main %}
-    <h1>#TODO: PROFILE</h1>
+    <h1>Pokédex</h1>
+    <h2><span style="color: gray;">Pokémon master: </span></h2>
+    <h2>{{session["user_name"] }}</h2>
+    <h3><span style="color: gray;">Pokémon:</span></h3>
+    <h3>{{ poke_count }}</h3>
+
+    <!-- Display pokemon collection -->
+    <div class="card-group">
+        {% for pokemon in pokedex %}
+            <div class="card">
+                <img class="card-img-top" src="{{ pokemon.sprite_url }}" style="image-rendering: pixelated;" alt="Pokemon image">
+                <div class="card-body">
+                    <h5 class="card-title"><span style="color: gray;">Name: </span> {{ pokemon.name.title() }}</h5>
+                    <p class="card-text"><span style="color: gray;">Type: </span> {{ pokemon.type.title() }}</p>
+                    <p class="card-text"><small class="text-muted">Code:   {{ pokemon.end_url }}</small></p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

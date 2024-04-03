@@ -1,24 +1,56 @@
-body {
-    font-family: "ＭＳ Ｐゴシック";
+@font-face {
+    font-family: "pokemon-pixel";
+    src: url("fonts/pokemon_pixel.ttf");
+}
+
+@font-face {
+    font-family: "pokemon-hollow";
+    src: url("fonts/pokemon_hollow.ttf");
+}
+
+.navbar-expand-lg.bg-body-tertiary {
+    background-color: #b6c5c9 !important; /* You can change this color to your preferred one */
+}
+
+.navbar-toggler-icon {
+    background-image: url('images/poke_navbar.png');
+}
+
+main {
+    margin: 25px;
+}
+
+body { 
+    background-color: #fafafa;
+    font-family: "pokemon-pixel", "ＭＳ Ｐゴシック";
+    font-size: small;
     font-weight: bold;
     font-smooth: never;
     -webkit-font-smoothing: none;
 }
 
+h1, h2 , h3 {
+    margin: 30px;
+}
+
+p {
+    margin: 15px;
+}
+
 .btn-primary:hover {
-    background-color: #ffcb05 !important;
+    background-color: #fbfb0a !important;
     color: black !important;
     font-weight: bold;
 }
 
 .btn-primary{
-    background-color: #3466af !important; /* Change the hover color if desired */
+    background-color: #2854c4 !important; /* Change the hover color if desired */
     color: white !important;
     margin: 10px;
 }
 
 .letter-button:not([disabled]):hover {
-    background-color: #ffcb05 !important;
+    background-color: #fbfb0a !important;
     color: black !important;
     font-weight: bold;
 }
@@ -34,7 +66,7 @@ body {
 }
 
 .letter-button:not([disabled]){
-    background-color: #3466af !important; 
+    background-color: #2854c4 !important; 
     color: white !important;
     width: 40px !important;
     margin: 5px;
@@ -46,4 +78,53 @@ body {
 
 #pokemon-name{
     font-size: 40px;
+}
+
+
+/* All of the following code was mostly created by ChatGPT*/
+
+.sprite-container {
+    position: relative;
+    width: 100%;
+    height: auto; /* Adjust the height as needed */
+    margin: 10px;
+    /*overflow: hidden;*/
+}
+
+#sprite {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: auto;
+    animation: moveSprite 10s linear infinite;
+}
+
+@keyframes moveSprite {
+    0% {
+        left: -3%; /* Adjust the initial position as needed */
+        transform: translateX(0);
+    }
+    100% {
+        left: 103%; /* Adjust the final position as needed */
+        transform: translateX(0);
+    }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    #sprite {
+        width: 10%; /* Adjust the width for mobile */
+        margin: 2px;
+    }
+
+    main {
+        margin: 5px;
+    }
+}
+
+/* Media query for desktop devices */
+@media (min-width: 769px) {
+    #sprite {
+        width: 4%; /* Adjust the width for desktop */
+    }
 }
