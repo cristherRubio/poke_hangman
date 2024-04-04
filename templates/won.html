@@ -5,19 +5,19 @@
 {% endblock %}
 
 {% block main %}
-    <h1>You captured {{ pokemon_name.title() }}!</h1>
-    <h2><img src="static/images/pokeball_close.ico" width="80px" height="80px" style="image-rendering: pixelated;"></h2>
-    <h2><img src="{{ pokemon_img }}" width="300px" style="image-rendering: pixelated;"></h2>
+    <h1>You won!</h1>
+    <h2>{{ pokemon_name.title() }} captured!</h2>
+    <h3><img src="{{ pokemon_img }}" width="300px" style="image-rendering: pixelated;"></h3>
     {% if session["user_id"] %}
         <a href="/profile">
-            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Pokédex</button>
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 20px;">Pokédex</button>
         </a>
         <a href="/game">
-            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Play again!</button>
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 20px;">Play again!</button>
         </a>
     {% else %}
         <a href="/game">
-            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 30px;">Play again!</button>
+            <button class="btn btn-primary" name="button" type="button" style="width: 200px; height: 140px; font-size: 20px;">Play again!</button>
         </a>
         <p>NOTE: You need to <a href="/register">register</a> to save your progress!</p>
     {% endif %}
