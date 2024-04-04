@@ -1,6 +1,7 @@
 import helpers
 import string
 import re
+import os
 import random
 from flask import Flask, render_template, request, redirect, url_for, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
@@ -12,7 +13,13 @@ from models import User, Pokemon, UserPokemon
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'your_secret_key'  # Change this to a random value
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokehang.db'
+     # Determine the database path based on the environment
+    if os.getenv('PYTHONANYWHERE_ENV'):
+        # Running on PythonAnywhere
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'pokehang.db')
+    else:
+        # Running locally
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokehang.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     with app.app_context():
