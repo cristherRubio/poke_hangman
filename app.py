@@ -1,6 +1,5 @@
-import helpers
-import string
 import re
+import os
 import random
 from flask import Flask, render_template, request, redirect, url_for, session, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
@@ -12,7 +11,13 @@ from models import User, Pokemon, UserPokemon
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'your_secret_key'  # Change this to a random value
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokehang.db'
+     # Determine the database path based on the environment
+    if os.getenv('PYTHONANYWHERE_ENV'):
+        # Running on PythonAnywhere
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(app.instance_path, 'pokehang.db')
+    else:
+        # Running locally
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pokehang.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
     with app.app_context():
@@ -93,6 +98,7 @@ def profile():
         flash('You need to log in first.', 'error')
         return redirect(url_for('login'))
 
+# ChatGPT provided a lot of help with the session variables.
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     if request.method == 'GET':
@@ -107,13 +113,13 @@ def game():
     else:
         pokemon_id = session['pokemon_id']
         pokemon = session['pokemon']
-        print(pokemon)
         pokemon_url = session['pokemon_url']
         attempts = session['attempts']
         guessed_chars = session['guessed_chars']
         used_letters = session['used_letters']
 
         if attempts <= 1:
+            session['redirected_from_game'] = True
             return redirect(url_for('lose'))
 
         letter_guess = request.form['letter'].upper()
@@ -134,39 +140,69 @@ def game():
 
     regex = r'[^ ' + "".join(guessed_chars) + r']'
     regex_sub = re.sub(regex, '_', pokemon)
+    print(pokemon)
 
     if pokemon == regex_sub:
+        session['redirected_from_game'] = True
         return redirect(url_for('win', captured_pokemon=pokemon_id))
 
     return render_template('game.html', regex_sub=regex_sub, used_letters=used_letters, attempts=attempts, pokemon_url=pokemon_url)
 
 @app.route('/lose')
 def lose():
+    # Redirects to index - ChatGPT
+    if session.get('redirected_from_game') != True:
+        flash('You can only access the lose route from the game route.', 'warning')
+        return redirect(url_for('index'))
+    # Check if the user has been redirected from the game route
     return render_template('lost.html')
 
 @app.route('/win')
 def win():
+    # Redirects to index - ChatGPT
+    if session.get('redirected_from_game') != True:
+        flash('You can only access the win/ route from the game route.', 'warning')
+        return redirect(url_for('index'))
+    
+    # Win display
     pokemon_id = request.args.get('captured_pokemon')  #ChatGPT
     pokemon = Pokemon.query.filter(Pokemon.id == pokemon_id).first()
     pokemon_name = pokemon.name
     pokemon_img = pokemon.sprite_url
+    pokemon_var = pokemon.end_url
     # If log in, add pokemon to user
     if 'user_id' in session:
         user = User.query.filter_by(id=session['user_id']).first()
-        pokemon_capture = UserPokemon(user_id=user.id, pokemon_id=pokemon_id)
-        db.session.add(pokemon_capture)
-        db.session.commit()
-    return render_template('won.html', pokemon_name=pokemon_name, pokemon_img=pokemon_img)
+        combination_exists = UserPokemon.query.filter_by(user_id=user.id, pokemon_id=pokemon_id).first()
+        if not combination_exists: 
+            pokemon_capture = UserPokemon(user_id=user.id, pokemon_id=pokemon_id)
+            db.session.add(pokemon_capture)
+            db.session.commit()
+    return render_template('won.html', pokemon_name=pokemon_name, pokemon_img=pokemon_img, pokemon_var=pokemon_var)
 
 def initialize_game():
     #ChatGPT
-    all_pokemon = Pokemon.query.all()
-    pokemon = random.choice(all_pokemon)
-    pokemon_id = pokemon.id
-    pokemon_name = pokemon.name.upper()
-    pokemon_url = pokemon.sprite_url
-    attempts = (len(pokemon_name) // 2)
-    return pokemon_id, pokemon_name, pokemon_url, attempts, []
+    if 'user_id' in session:
+        user = User.query.filter_by(id=session['user_id']).first()
+        user_pokemon = UserPokemon.query.filter_by(user_id=user.id).all()
+        user_pokemon_ids = [pk.pokemon_id for pk in user_pokemon]
+        non_captd_pokemon = Pokemon.query.filter(~Pokemon.id.in_(user_pokemon_ids)).all()
+        pokemon = random.choice(non_captd_pokemon)
+        pokemon_id = pokemon.id
+        pokemon_name = pokemon.name.upper()
+        pokemon_url = pokemon.sprite_url
+        attempts = (len(pokemon_name) // 2) + 1
+    else:
+        all_pokemon = Pokemon.query.all()
+        pokemon = random.choice(all_pokemon)
+        pokemon_id = pokemon.id
+        pokemon_name = pokemon.name.upper()
+        pokemon_url = pokemon.sprite_url
+        attempts = (len(pokemon_name) // 2)
+    if ' ' in pokemon_name:
+        return pokemon_id, pokemon_name, pokemon_url, attempts, [' ']
+    else:
+        return pokemon_id, pokemon_name, pokemon_url, attempts, []
 
 def reset_game():
     #ChatGPT
@@ -174,6 +210,16 @@ def reset_game():
     session.pop('letters', None)
     session.pop('guessed_chars', None)
     session.pop('attempts', None)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Custom 404 error handler
+@app.errorhandler(404)
+def page_not_found(e):
+    # Render the custom 404 page
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

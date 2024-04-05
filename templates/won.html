@@ -7,6 +7,9 @@
 {% block main %}
     <h1>You won!</h1>
     <h2>{{ pokemon_name.title() }} captured!</h2>
+    {% if pokemon_name.title() != pokemon_var.replace('-', ' ').title() %}
+        <h3><span>Variant: </span>{{ pokemon_var.replace('-', ' ').title() }}</h3>
+    {% endif %}
     <h3><img src="{{ pokemon_img }}" width="300px" style="image-rendering: pixelated;"></h3>
     {% if session["user_id"] %}
         <a href="/profile">
