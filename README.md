@@ -1,16 +1,68 @@
 # Pokemon hangman
 #### Video Demo: https://cristherrubio.pythonanywhere.com/
 #### Description:
+It was an extremely fun project to create, but also frustrating at times. I decided to do this web app because it would allow me to be a little corky, and though I'm not a Pokemon fan, I do have a lot of friends who are; also, surely enough the Pokemon API that was used provided a very easy and simple way to stick to the initial idea.
+
+The start of the project did not regard design, only functionality. The initial implementation was the register, log-in, and log-out routes and HTML's; using what we did in the finance project as a guide. As development progressed I saw the need for a database (DB), chose SQLite3, and then created a very simple table for users and Pokemon, quickly realizing another table to relate those two was in need. It was because of this that I discovered SQLAlchemy's Object Relational Mapper (ORM), which abstracts a lot of the SQL queries needed as models and classes, which was an incredible breakthrough. 
+
+I then proceeded to create a script with the full mechanics of a hangman game, though implementing the interaction with HTML proved way harder than I thought (this is where ChatGPT helped the most). Shortly after this, the scripts for requesting all Pokemon (and their relevant data) and another one to populate the Pokemon model in the DB were created.
+
+The design of the page was a reminiscence of the '90s games, which was conveniently ad-hoc to the sprites the API provides. I took the Pokemon retro logo as well as a screenshot of the Gameboy's first game to create the color scheme and to find the pixel font.
+
+At last, the Pokemon-hangman web app was finished, not without noticing that the interaction directly for the letter buttons is janky because I did not use AJAX (apparently), which I don´t know how to use but hopefully will learn soon.
 
 ## Table of Contents
 
 - [Usage](#usage)
-- [Disclaimer](#credits)
+- [Project](#project)
+- [Disclaimer](#disclaimer)
 - [Credits](#credits)
 
 ## Usage
 
-Just go to [my pythonanywhere](https://cristherrubio.pythonanywhere.com/) and start using the web-app. You do need to register to save your progress.
+Just go to my [pythonanywhere](https://cristherrubio.pythonanywhere.com/) and start using the web app. You do need to register to save your progress.
+
+## Project
+
+The structure and description of the project directory.
+
+- **scripts/**
+  - *hangman.py* Contains the standalone hangman mechanics.
+  - *INIT_pokemon_api.py* Requests [PokéAPI](https://pokeapi.co/) to create static/pokemon_data.csv
+
+- **static/**
+  - *fonts/* Contains the special fonts used.
+  - *gifs/* Contains the GIF used below the navbar.
+  - *images/* Contains the images used in the web app.
+  - *pokemon_data.csv* Contains the data to populate the Pokemon table.
+  - *styles.css* Contains the styles definition in CSS for the web app.
+
+- **templates/**
+  - *404.html* Not found page.
+  - *about.html* Disclaimer and credits page.
+  - *game.html* Game page. 
+  - *index.html* Landing page.
+  - *layout.html* Base page, imported by every page.
+  - *login.html* Login page.
+  - *logout.html* Logout page.
+  - *lost.html* Game redirects here if player loses.
+  - *profile.html* Pokedex page, displays all of the captured Pokemon for a user.
+  - *register.html* Registration page.
+  - *won.html* Game redirects here if player wins.
+
+- **.gitignore** Determines dirs and files to ignore.
+
+- **.python-version** Python version used, created with Pyenv.
+
+- **app.py** Flask app containing all of the logic for the back-end.
+
+- **INIT_pokemon_populate.py** Populates the Pokemon table after the creation of the app instance created by Flask. Gets data from *static/pokemon_data.csv*.
+
+- **models.py** Class creation for SQLAlchemy models.
+
+- **README.md** This file.
+
+- **requirements.txt** Python dependencies and libraries used in the project, needed to recreate venv.
 
 ## Disclaimer
 

@@ -1,5 +1,3 @@
-import helpers
-import string
 import re
 import os
 import random
@@ -193,7 +191,7 @@ def initialize_game():
         pokemon_id = pokemon.id
         pokemon_name = pokemon.name.upper()
         pokemon_url = pokemon.sprite_url
-        attempts = (len(pokemon_name) // 2)
+        attempts = (len(pokemon_name) // 2) + 1
     else:
         all_pokemon = Pokemon.query.all()
         pokemon = random.choice(all_pokemon)
