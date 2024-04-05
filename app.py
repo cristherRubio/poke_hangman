@@ -121,6 +121,7 @@ def game():
         used_letters = session['used_letters']
 
         if attempts <= 1:
+            session['redirected_from_game'] = True
             return redirect(url_for('lose'))
 
         letter_guess = request.form['letter'].upper()
@@ -144,16 +145,28 @@ def game():
     print(pokemon)
 
     if pokemon == regex_sub:
+        session['redirected_from_game'] = True
         return redirect(url_for('win', captured_pokemon=pokemon_id))
 
     return render_template('game.html', regex_sub=regex_sub, used_letters=used_letters, attempts=attempts, pokemon_url=pokemon_url)
 
 @app.route('/lose')
 def lose():
+    # Redirects to index - ChatGPT
+    if session.get('redirected_from_game') != True:
+        flash('You can only access the lose route from the game route.', 'warning')
+        return redirect(url_for('index'))
+    # Check if the user has been redirected from the game route
     return render_template('lost.html')
 
 @app.route('/win')
 def win():
+    # Redirects to index - ChatGPT
+    if session.get('redirected_from_game') != True:
+        flash('You can only access the win/ route from the game route.', 'warning')
+        return redirect(url_for('index'))
+    
+    # Win display
     pokemon_id = request.args.get('captured_pokemon')  #ChatGPT
     pokemon = Pokemon.query.filter(Pokemon.id == pokemon_id).first()
     pokemon_name = pokemon.name
@@ -162,9 +175,11 @@ def win():
     # If log in, add pokemon to user
     if 'user_id' in session:
         user = User.query.filter_by(id=session['user_id']).first()
-        pokemon_capture = UserPokemon(user_id=user.id, pokemon_id=pokemon_id)
-        db.session.add(pokemon_capture)
-        db.session.commit()
+        combination_exists = UserPokemon.query.filter_by(user_id=user.id, pokemon_id=pokemon_id).first()
+        if not combination_exists: 
+            pokemon_capture = UserPokemon(user_id=user.id, pokemon_id=pokemon_id)
+            db.session.add(pokemon_capture)
+            db.session.commit()
     return render_template('won.html', pokemon_name=pokemon_name, pokemon_img=pokemon_img, pokemon_var=pokemon_var)
 
 def initialize_game():
@@ -197,6 +212,16 @@ def reset_game():
     session.pop('letters', None)
     session.pop('guessed_chars', None)
     session.pop('attempts', None)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+# Custom 404 error handler
+@app.errorhandler(404)
+def page_not_found(e):
+    # Render the custom 404 page
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)

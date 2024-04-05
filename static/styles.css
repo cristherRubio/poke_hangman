@@ -37,6 +37,21 @@ p {
     margin: 15px;
 }
 
+.just-left {
+    text-align: justify;
+    font-size: small;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
+.grayed {
+    text-align: justify;
+    font-size: small;
+    color: #474747;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
 .btn-primary:hover {
     background-color: #fbfb0a !important;
     color: black !important;
@@ -81,6 +96,8 @@ p {
 }
 
 
+
+
 /* All of the following code was mostly created by ChatGPT*/
 
 .sprite-container {
@@ -88,7 +105,6 @@ p {
     width: 100%;
     height: auto; /* Adjust the height as needed */
     margin: 10px;
-    /*overflow: hidden;*/
 }
 
 #sprite {
