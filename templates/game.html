@@ -13,7 +13,7 @@
         {% endfor %}
     </h2>
         <img src="{{ pokemon_url }}" width="300px" style="image-rendering: pixelated; filter: brightness(0.00)">
-    <h2 id="pokemon-name">{{ ' '.join(regex_sub) }}</h2>
+    <h2 id="pokemon-name">{{ ''.join(regex_sub) }}</h2>
 
     <form action="{{ url_for('game') }}" method="post">
         {% for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' %}

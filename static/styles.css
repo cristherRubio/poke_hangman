@@ -95,17 +95,18 @@ p {
     position: absolute;
     left: 0;
     top: 0;
+    min-width: 60px;
     height: auto;
     animation: moveSprite 10s linear infinite;
 }
 
 @keyframes moveSprite {
     0% {
-        left: -3%; /* Adjust the initial position as needed */
+        left: 0%; /* Adjust the initial position as needed */
         transform: translateX(0);
     }
     100% {
-        left: 103%; /* Adjust the final position as needed */
+        left: 100%; /* Adjust the final position as needed */
         transform: translateX(0);
     }
 }

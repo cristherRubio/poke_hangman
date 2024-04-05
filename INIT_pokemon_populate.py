@@ -7,8 +7,13 @@ df = pd.read_csv('static/pokemon_data.csv')
 print(len(df))
 df = df[~df.sprite_url.isna()]
 df = df[['name', 'type', 'end_url', 'sprite_url']]
-print(len(df))
-print(df)
+
+# Compound names fix
+regex = 'mr-mime|mime-jr|great-tusk'
+mask = df.end_url.str.contains('-')
+name_mask = df.end_url.str.contains(regex, regex=True)
+res_name_mask = df[(mask) & (name_mask)].end_url.str.split('-').str[0] + ' ' + df[(mask) & (name_mask)].end_url.str.split('-').str[1]
+df.loc[(mask) & (name_mask), 'name'] = res_name_mask
 
 #col_names = ('name', 'type', 'end_url', 'sprite_url')
 # ChatGPT -- Insert dataframe to DB

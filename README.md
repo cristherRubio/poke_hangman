@@ -1,10 +1,9 @@
 # pokemon_hangman
 
 ## TODO
+- Handle 
 
-    
-- Game page
-    - if user validate for non captured pokemon before game (Maybe in init_game())
+- Handle 404 not found, ex. page/pokepoke
 
 - add 'about' page with disclaimer
 - Change  navbar hamburger
