@@ -37,6 +37,8 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        username = username.strip()
+        password = password.strip()
 
         # Password validation REGEX provided by ChatGPT
         if not re.match(r'^(?=.*[A-Za-z]{4})(?=.*\d)[A-Za-z\d]{5,}$', password):
@@ -64,6 +66,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        username = username.strip()
+        password = password.strip()
 
         user = User.query.filter_by(username=username).first()
 
