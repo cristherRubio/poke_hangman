@@ -1,5 +1,5 @@
 # Pokemon hangman
-#### Video Demo: https://cristherrubio.pythonanywhere.com/
+#### Video Demo: https://youtu.be/w6tdfLz05Bc
 #### Description:
 It was an extremely fun project to create, but also frustrating at times. I decided to do this web app because it would allow me to be a little corky, and though I'm not a Pokemon fan, I do have a lot of friends who are; also, surely enough the Pokemon API that was used provided a very easy and simple way to stick to the initial idea.
 
@@ -17,6 +17,7 @@ At last, the Pokemon-hangman web app was finished, not without noticing that the
 - [Project](#project)
 - [Disclaimer](#disclaimer)
 - [Credits](#credits)
+- [TODO](#TODO)
 
 ## Usage
 
@@ -88,3 +89,12 @@ By using this web app, you agree to the following:
   - Ash running GIF: [Deviantart](https://www.deviantart.com/the-otaku-dude326/art/PT-Running-Animation-290157303)
   - Pixel hearts: [Freesvg](https://freesvg.org/heart-svg-pixel-art)
   - Open pokeball: [Deviantart](https://www.deviantart.com/blacklem00n)
+
+## TODO
+
+TODO list for the future:
+- Currently, the same user can be logged in two (or maybe more) devices.
+- Add al types of a Pokemon
+- Add search bar to Pokedex
+- Add animation to Pokemon reveal
+- Maybe say which Pokemon is when user loses
