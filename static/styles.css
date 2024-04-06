@@ -145,3 +145,15 @@ p {
         width: 4%; /* Adjust the width for desktop */
     }
 }
+
+/* Custom CSS */
+.custom-card {
+    max-width: 300px; /* Default maximum width */
+}
+  
+/* Media query for responsiveness */
+@media (max-width: 576px) {
+    .custom-card {
+        max-width: 100%; /* Adjusting the maximum width for small screens */
+    }
+}

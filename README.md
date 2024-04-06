@@ -79,7 +79,7 @@ By using this web app, you agree to the following:
 
 - Made with Python (Flask), HTML (Bootstrap), and CSS; as the final project for [CS50x](https://cs50.harvard.edu/x/2024/).
 - Concept and Development: Cristher Rubio ([project repo](https://github.com/cristherRubio/pokemon_hangman))
-- QA and testing: Fernandinho Brito
+- QA and testing: Fernando Brito
 - Pokémon Data and sprites: [PokéAPI](https://pokeapi.co/)
 - Graphics & fonts:
   - Pokémon pixel font: [Fonts2u](https://es.fonts2u.com/pokemon-pixel-font-regular.fuente)
