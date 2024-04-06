@@ -19,7 +19,11 @@
                 <div class="card-body">
                     <h5 class="card-title"><span style="color: gray;">Name: </span> {{ pokemon.name.title() }}</h5>
                     <p class="card-text"><span style="color: gray;">Type: </span> {{ pokemon.type.title() }}</p>
-                    <p class="card-text"><span style="color: gray;">Variant: </span> {{ pokemon.end_url.replace('-', ' ').title() }}</p>
+                    {% if pokemon.end_url.replace('-', ' ').title() == pokemon.name.title() %}
+                    <p class="card-text"><span style="color: gray;">Variant: </span>NULL</p>
+                    {% else %}
+                        <p class="card-text"><span style="color: gray;">Variant: </span> {{ pokemon.end_url.replace('-', ' ').title() }}</p>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
