@@ -115,5 +115,5 @@ async def guess(
         status="won" if won else "lost" if lost else "playing",
         pokemon_name=pokemon.name if game_over else None,
         sprite_url=pokemon.sprite_url if game_over else None,
-        end_url=pokemon.end_url if game_over else None,
+        end_url=pokemon.slug if game_over else None,
     )

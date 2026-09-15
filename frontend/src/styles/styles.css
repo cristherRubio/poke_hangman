@@ -1,0 +1,159 @@
+@font-face {
+    font-family: "pokemon-pixel";
+    src: url("/fonts/pokemon_pixel.ttf");
+}
+
+@font-face {
+    font-family: "pokemon-hollow";
+    src: url("/fonts/pokemon_hollow.ttf");
+}
+
+.navbar-expand-lg.bg-body-tertiary {
+    background-color: #b6c5c9 !important; /* You can change this color to your preferred one */
+}
+
+.navbar-toggler-icon {
+    background-image: url('/images/poke_navbar.png');
+}
+
+main {
+    margin: 25px;
+}
+
+body {
+    background-color: #fafafa;
+    font-family: "pokemon-pixel", "ＭＳ Ｐゴシック";
+    font-size: small;
+    font-weight: bold;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
+h1, h2 , h3 {
+    margin: 30px;
+}
+
+p {
+    margin: 15px;
+}
+
+.just-left {
+    text-align: justify;
+    font-size: small;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
+.grayed {
+    text-align: justify;
+    font-size: small;
+    color: #474747;
+    font-smooth: never;
+    -webkit-font-smoothing: none;
+}
+
+.btn-primary:hover {
+    background-color: #fbfb0a !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+.btn-primary{
+    background-color: #2854c4 !important; /* Change the hover color if desired */
+    color: white !important;
+    margin: 10px;
+}
+
+.letter-button:not([disabled]):hover {
+    background-color: #fbfb0a !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+.letter-button[disabled] { /* ChatGPT */
+    background-color: #474747 !important;
+    color: rgb(255, 254, 254) !important;
+    width: 40px !important;
+    margin: 5px;
+    padding: 10px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+}
+
+.letter-button:not([disabled]){
+    background-color: #2854c4 !important;
+    color: white !important;
+    width: 40px !important;
+    margin: 5px;
+    padding: 10px 10px;
+    border-radius: 6px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#pokemon-name{
+    font-size: 40px;
+}
+
+
+
+
+/* All of the following code was mostly created by ChatGPT*/
+
+.sprite-container {
+    position: relative;
+    width: 100%;
+    height: auto; /* Adjust the height as needed */
+    margin: 10px;
+}
+
+#sprite {
+    position: absolute;
+    left: 0;
+    top: 0;
+    min-width: 60px;
+    height: auto;
+    animation: moveSprite 10s linear infinite;
+}
+
+@keyframes moveSprite {
+    0% {
+        left: 0%; /* Adjust the initial position as needed */
+        transform: translateX(0);
+    }
+    100% {
+        left: 100%; /* Adjust the final position as needed */
+        transform: translateX(0);
+    }
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+    #sprite {
+        width: 10%; /* Adjust the width for mobile */
+        margin: 2px;
+    }
+
+    main {
+        margin: 5px;
+    }
+}
+
+/* Media query for desktop devices */
+@media (min-width: 769px) {
+    #sprite {
+        width: 4%; /* Adjust the width for desktop */
+    }
+}
+
+/* Custom CSS */
+.custom-card {
+    max-width: 300px; /* Default maximum width */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 576px) {
+    .custom-card {
+        max-width: 100%; /* Adjusting the maximum width for small screens */
+    }
+}
