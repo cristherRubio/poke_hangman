@@ -14,7 +14,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          <img src="/Pokemon_logo_pixel.png" alt="Pokémon" width="100" />
+          <img src="/images/Pokemon_logo_pixel.png" alt="Pokémon" width="100" />
         </Link>
         <button
           className="navbar-toggler"

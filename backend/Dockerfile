@@ -13,5 +13,6 @@ RUN uv sync --frozen --no-install-project --no-dev
 COPY . .
 RUN uv sync --frozen --no-dev
 
-# Run through uv so it uses the project's .venv without activating it manually
-CMD ["uv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
