@@ -18,11 +18,8 @@ class Settings(BaseSettings):
     MAX_LOGIN_ATTEMPTS: int = 5
     LOCKOUT_MINUTES: int = 15
 
-    SMTP_HOST: str = ""
-    SMTP_PORT: int = 587
-    SMTP_USER: str = ""
-    SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "no-reply@pokehangman.app"
+    RESEND_API_KEY: str = ""
+    EMAIL_FROM: str = "noreply@mail.poke-hangman.com"
 
     FRONTEND_URL: str = "http://localhost:5173"
 

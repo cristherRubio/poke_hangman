@@ -1,26 +1,20 @@
-import aiosmtplib
-from email.message import EmailMessage
-
+import resend
 from app.core.config import settings
+
+resend.api_key = settings.RESEND_API_KEY
 
 
 async def send_email(to: str, subject: str, body: str) -> None:
-    if not settings.SMTP_HOST:
+    if not settings.RESEND_API_KEY:
         # Dev fallback — don't silently drop verification/reset links while testing
         print(f"--- EMAIL to {to} ---\n{subject}\n\n{body}\n---")
         return
 
-    msg = EmailMessage()
-    msg["From"] = settings.EMAIL_FROM
-    msg["To"] = to
-    msg["Subject"] = subject
-    msg.set_content(body)
-
-    await aiosmtplib.send(
-        msg,
-        hostname=settings.SMTP_HOST,
-        port=settings.SMTP_PORT,
-        username=settings.SMTP_USER,
-        password=settings.SMTP_PASSWORD,
-        start_tls=True,
+    resend.Emails.send(
+        {
+            "from": settings.EMAIL_FROM,
+            "to": to,
+            "subject": subject,
+            "text": body,
+        }
     )
