@@ -150,6 +150,16 @@ export function AuthProvider({ children }) {
     return null; // 204
   }, []);
 
+  const verifyEmail = useCallback(async (token) => {
+    const res = await fetch(buildUrl('/auth/verify-email'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    if (!res.ok) throw new ApiError(await parseErrorBody(res));
+    return null; // 204
+  }, []);
+
   const logout = useCallback(async () => {
     await fetch(buildUrl('/auth/logout'), {
       method: 'POST',
@@ -166,6 +176,7 @@ export function AuthProvider({ children }) {
     accessToken,
     login,
     register,
+    verifyEmail,
     forgotPassword,
     resetPassword,
     logout,

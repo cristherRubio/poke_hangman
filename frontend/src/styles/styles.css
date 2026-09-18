@@ -101,19 +101,16 @@ p {
 /* All of the following code was mostly created by ChatGPT*/
 
 .sprite-container {
-    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: auto; /* Adjust the height as needed */
     margin: 10px;
 }
 
 #sprite {
-    position: absolute;
-    left: 0;
-    top: 0;
-    min-width: 60px;
+    width: 150px; /* adjust size as needed */
     height: auto;
-    animation: moveSprite 10s linear infinite;
 }
 
 @keyframes moveSprite {

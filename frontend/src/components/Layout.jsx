@@ -13,7 +13,7 @@ export default function Layout({ children }) {
         <img id="sprite" src="/gifs/ash.gif" alt="Ash running" />
       </div>
 
-      <main className="container-fluid py-5 text-center">{children}</main>
+      <main className="container-fluid text-center">{children}</main>
 
       {showFooter && (
         <footer className="mb-5 small text-center text-muted">
