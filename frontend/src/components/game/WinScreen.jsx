@@ -8,7 +8,7 @@ export default function WinScreen({ pokemonName, spriteUrl, onPlayAgain }) {
   return (
     <>
       <h1>You won!</h1>
-      <h2>{titleCase(pokemonName)} captured!</h2>
+      <h2><strong>{titleCase(pokemonName)}</strong> captured!</h2>
       <h3>
         <img
           src={spriteUrl}
