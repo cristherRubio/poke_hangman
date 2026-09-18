@@ -10,11 +10,10 @@ async def send_email(to: str, subject: str, body: str) -> None:
         print(f"--- EMAIL to {to} ---\n{subject}\n\n{body}\n---")
         return
 
-    resend.Emails.send(
-        {
-            "from": settings.EMAIL_FROM,
-            "to": to,
-            "subject": subject,
-            "text": body,
-        }
-    )
+    params: resend.Emails.SendParams = {
+        "from": settings.EMAIL_FROM,
+        "to": [to],
+        "subject": subject,
+        "html": body,
+    }
+    resend.Emails.send(params)
