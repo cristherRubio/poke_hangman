@@ -1,11 +1,12 @@
-export default function Hearts({ count }) {
+export default function Hearts({ total, remaining }) {
   return (
     <h2>
-      {Array.from({ length: count }, (_, i) => (
+      {Array.from({ length: total }, (_, i) => (
         <img
           key={i}
-          src="/images/pixel_heart.svg"
+          src={i < remaining ? '/images/pixel_heart.svg' : '/images/pixel_heart_empty.svg'}
           width="75px"
+          className={i < remaining ? 'heart-active' : ''}
           style={{ imageRendering: 'pixelated' }}
           alt=""
         />

@@ -16,6 +16,7 @@ export default function Navbar() {
         <Link className="navbar-brand" to="/">
           <img src="/images/Pokemon_logo_pixel.png" alt="Pokémon" width="100" />
         </Link>
+        <img id="sprite" src="/gifs/ash.gif" alt="Ash running" />
         <button
           className="navbar-toggler"
           type="button"

@@ -13,6 +13,7 @@ export default function WinScreen({ pokemonName, spriteUrl, onPlayAgain }) {
         <img
           src={spriteUrl}
           width="300px"
+          className="sprite-swirl"
           style={{ imageRendering: 'pixelated' }}
           alt={pokemonName}
         />

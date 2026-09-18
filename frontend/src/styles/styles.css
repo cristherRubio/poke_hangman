@@ -95,7 +95,36 @@ p {
     font-size: 40px;
 }
 
+/* Hearts */
 
+.heart-active {
+    animation: heartPump 1.4s steps(2, jump-none) infinite;
+}
+
+@keyframes heartPump {
+    0% { transform: scale(1); }
+    /* 30% { transform: scale(1.25); } */
+    50% { transform: scale(0.95); }
+    /* 70% { transform: scale(1.1); } */
+    /* 100% { transform: scale(1); } */
+}
+
+/* Win swirl */
+
+.sprite-swirl {
+    animation: swirlIn 1.2s ease-out;
+}
+
+@keyframes swirlIn {
+    0% {
+        transform: rotate(0deg) scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+}
 
 
 /* All of the following code was mostly created by ChatGPT*/
@@ -108,38 +137,24 @@ p {
     margin: 10px;
 }
 
-#sprite {
-    width: 150px; /* adjust size as needed */
-    height: auto;
-}
-
-@keyframes moveSprite {
-    0% {
-        left: 0%; /* Adjust the initial position as needed */
-        transform: translateX(0);
+@media (min-width: 992px) {
+    .navbar .container-fluid {
+        position: relative;
     }
-    100% {
-        left: 100%; /* Adjust the final position as needed */
-        transform: translateX(0);
-    }
-}
 
-/* Media query for mobile devices */
-@media (max-width: 768px) {
     #sprite {
-        width: 10%; /* Adjust the width for mobile */
-        margin: 2px;
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
     }
+}
 
+@media (max-width: 768px) {
     main {
         margin: 5px;
-    }
-}
-
-/* Media query for desktop devices */
-@media (min-width: 769px) {
-    #sprite {
-        width: 4%; /* Adjust the width for desktop */
     }
 }
 

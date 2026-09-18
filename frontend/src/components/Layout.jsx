@@ -9,10 +9,6 @@ export default function Layout({ children }) {
     <>
       <Navbar />
 
-      <div className="sprite-container">
-        <img id="sprite" src="/gifs/ash.gif" alt="Ash running" />
-      </div>
-
       <main className="container-fluid text-center">{children}</main>
 
       {showFooter && (

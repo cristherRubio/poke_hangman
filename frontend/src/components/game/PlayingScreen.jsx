@@ -3,6 +3,7 @@ import LetterGrid from './LetterGrid';
 
 export default function PlayingScreen({
   maskedName,
+  maxAttempts,
   attemptsRemaining,
   spriteUrl,
   guessedLetters,
@@ -14,7 +15,7 @@ export default function PlayingScreen({
       <h1>Play!</h1>
       <h2>Who's that Pokémon?</h2>
 
-      <Hearts count={attemptsRemaining} />
+      <Hearts total={maxAttempts} remaining={attemptsRemaining} />
 
       <img
         src={spriteUrl}

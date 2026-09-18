@@ -96,6 +96,7 @@ export default function Game() {
         <PlayingScreen
           maskedName={game.maskedName}
           attemptsRemaining={game.attemptsRemaining}
+          maxAttempts={game.maxAttempts}
           spriteUrl={game.spriteUrl}
           guessedLetters={game.guessedLetters}
           onGuess={handleGuess}
