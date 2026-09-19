@@ -53,7 +53,7 @@ def new_action_token() -> tuple[str, str]:
 
 
 def create_game_token(
-    pokemon_id: int, guessed_letters: list[str], max_attempts: int
+    pokemon_id: int, guessed_letters: list[str], max_attempts: int, penalty: int = 0
 ) -> str:
     now = datetime.now(timezone.utc)
     payload = {
@@ -61,6 +61,7 @@ def create_game_token(
         "pokemon_id": pokemon_id,
         "guessed_letters": guessed_letters,
         "max_attempts": max_attempts,
+        "penalty": penalty,
         "iat": now,
         "exp": now + timedelta(minutes=30),
     }

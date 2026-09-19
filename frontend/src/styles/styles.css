@@ -64,6 +64,25 @@ p {
     margin: 10px;
 }
 
+.btn-secondary:hover {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    background-color: #2854c4 !important;
+    color:  #fbfb0a !important;
+    font-weight: bold;
+}
+
+.btn-secondary{
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+    outline: none;
+    background-color: #fbfb0a !important; /* Change the hover color if desired */
+    color: #2854c4 !important;
+    margin: 5px;
+}
+
 .letter-button:not([disabled]):hover {
     background-color: #fbfb0a !important;
     color: black !important;
@@ -112,7 +131,9 @@ p {
 /* Win swirl */
 
 .sprite-swirl {
-    animation: swirlIn 1.2s ease-out;
+    animation: 
+        swirlIn 1.2s ease-out,
+        bounce 1s ease-in-out 1.2s infinite;
 }
 
 @keyframes swirlIn {
@@ -126,6 +147,10 @@ p {
     }
 }
 
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-10px); }
+}
 
 /* All of the following code was mostly created by ChatGPT*/
 

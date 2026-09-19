@@ -16,6 +16,11 @@ class GuessIn(BaseModel):
     letter: str = Field(min_length=1, max_length=1)
 
 
+class HintIn(BaseModel):
+    game_token: str
+    reveal: bool = False
+
+
 class GuessOut(BaseModel):
     game_token: str | None = None  # null once the game is over
     masked_name: str

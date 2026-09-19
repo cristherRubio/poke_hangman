@@ -11,10 +11,12 @@ export default function Game() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
+  const [isRevealed, setIsRevealed] = useState(false);
 
   const startNewGame = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setIsRevealed(false);
     try {
       // Game routes take an optional bearer - authFetch still attaches the
       // token if we have one (for the bonus attempt / auto-capture), but
@@ -40,6 +42,34 @@ export default function Game() {
   useEffect(() => {
     startNewGame();
   }, [startNewGame]);
+
+  const handleHint = async (reveal = false) => {
+    if (isSubmitting || !game || game.status !== 'playing') return;
+    setIsSubmitting(true);
+    setError(null);
+    try {
+      const data = await authFetch('/game/hint', {
+        method: 'POST',
+        auth: 'optional',
+        body: JSON.stringify({ game_token: game.gameToken, reveal }),
+      });
+      setGame((prev) => ({
+        ...prev,
+        gameToken: data.game_token,
+        maskedName: data.masked_name,
+        guessedLetters: data.guessed_letters,
+        attemptsRemaining: data.attempts_remaining,
+        status: data.status,
+        pokemonName: data.pokemon_name,
+        spriteUrl: data.sprite_url || prev.spriteUrl,
+      }));
+      if (reveal) setIsRevealed(true);
+    } catch (err) {
+      setError(err.message || 'Could not get a hint - try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleGuess = async (letter) => {
     if (isSubmitting || !game || game.status !== 'playing') return;
@@ -101,6 +131,9 @@ export default function Game() {
           guessedLetters={game.guessedLetters}
           onGuess={handleGuess}
           isSubmitting={isSubmitting}
+          onHint={() => handleHint(false)}
+          onReveal={() => handleHint(true)}
+          isRevealed={isRevealed}
         />
       )}
 
