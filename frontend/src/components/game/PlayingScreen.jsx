@@ -9,7 +9,12 @@ export default function PlayingScreen({
   guessedLetters,
   onGuess,
   isSubmitting,
+  onHint,
+  onReveal,
+  isRevealed,
 }) {
+  const canHint = attemptsRemaining > 1 && !isSubmitting;
+
   return (
     <>
       <h1>Play!</h1>
@@ -20,9 +25,34 @@ export default function PlayingScreen({
       <img
         src={spriteUrl}
         width="300px"
-        style={{ imageRendering: 'pixelated', filter: 'brightness(0.00)' }}
-        alt="Mystery Pokémon silhouette"
+        style={{
+          imageRendering: 'pixelated',
+          filter: isRevealed ? 'none' : 'brightness(0.00)', // CHANGED
+        }}
+        alt={isRevealed ? 'Pokémon' : 'Mystery Pokémon silhouette'} // CHANGED
       />
+
+      {/* NEW: hint buttons */}
+      <div className="my-2">
+        <button
+          className="btn btn-secondary"
+          onClick={onHint}
+          disabled={!canHint}
+        >
+          Hint 
+          <br />
+          <small>(-1 ❤)</small>
+        </button>
+        <button
+          className="btn btn-secondary"
+          onClick={onReveal}
+          disabled={!canHint || isRevealed}
+        >
+          Reveal Pokémon 
+          <br />
+          <small>(down to 1 ❤)</small>
+        </button>
+      </div>
 
       <h2 id="pokemon-name">{maskedName}</h2>
 
